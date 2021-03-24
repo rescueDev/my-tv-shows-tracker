@@ -20,3 +20,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+//Navigation routes user logged
+Route::get('/progress', function () {
+    return view('progress');
+});
+
+Route::get('/discover', function () {
+    return view('discover');
+});
+
+Route::get('/profile', function () {
+    return view('profile');
+});
