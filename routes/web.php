@@ -25,12 +25,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Navigation routes user logged
 Route::get('/progress', function () {
     return view('progress');
-});
+})->middleware('auth');
 
 Route::get('/discover', function () {
     return view('discover');
-});
+})->middleware('auth');
 
 Route::get('/profile', function () {
     return view('profile');
-});
+})->middleware('auth');
+
+
+Route::post('/shows', 'ShowController@store');

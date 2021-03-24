@@ -19,10 +19,10 @@ class CreateShowsTable extends Migration
             $table->text('overview');
             $table->date('first_air_date');
             $table->smallInteger('season_count')->unsigned()->nullable();
-            $table->smallInteger('rating')->nullable();
+            $table->smallInteger('vote_average')->nullable();
             $table->string('poster')->nullable();
             $table->string('status')->nullable();
-            $table->string('lang');
+            $table->string('original_language');
 
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();

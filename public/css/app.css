@@ -10942,3 +10942,20 @@ a.text-dark:focus {
   }
 }
 
+* {
+  font-family: "Nunito";
+}
+
+.results {
+  position: relative;
+}
+
+.fa-plus-square {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  color: #ce9c15;
+  font-size: 25px;
+  background-color: #292727;
+}
+

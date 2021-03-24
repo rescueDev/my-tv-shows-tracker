@@ -1,8 +1,25 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
+
+* {
+    font-family: "Nunito";
+}
+
+.results {
+    position: relative;
+}
+
+.fa-plus-square {
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    color: rgb(206, 156, 21);
+    font-size: 25px;
+    background-color: rgba($color: #2927278d, $alpha: 1);
+}
