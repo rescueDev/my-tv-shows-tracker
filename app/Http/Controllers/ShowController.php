@@ -15,7 +15,7 @@ class ShowController extends Controller
      */
     public function index()
     {
-        $show = Show::all();
+        $shows = Show::all();
         return view('progress', compact('shows'));
     }
 
@@ -42,7 +42,7 @@ class ShowController extends Controller
             'name' => 'required|string|unique:shows',
             'overview' => 'required',
             'first_air_date' => 'required|date',
-            'vote_average' => 'required|integer',
+            'vote_average' => 'required',
             'original_language' => 'required|string',
             'user_id' => 'required|integer',
         ]);
@@ -54,6 +54,7 @@ class ShowController extends Controller
         $show->vote_average = $request->vote_average;
         $show->original_language = $request->original_language;
         $show->user_id = $request->user_id;
+        $show->poster = $request->poster_path;
 
         $show->save();
         dd($show);

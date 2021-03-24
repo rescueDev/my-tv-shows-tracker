@@ -35,5 +35,5 @@ Route::get('/profile', function () {
     return view('profile');
 })->middleware('auth');
 
-
+Route::get('/progress', 'ShowController@index');
 Route::post('/shows', 'ShowController@store');

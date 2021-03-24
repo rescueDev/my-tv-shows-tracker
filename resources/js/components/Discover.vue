@@ -92,7 +92,8 @@ export default {
                 first_air_date: show.first_air_date,
                 vote_average: show.vote_average,
                 original_language: show.original_language,
-                user_id: this.auth
+                user_id: this.auth,
+                poster_path: show.poster_path
             };
             // console.log(addedShow);
             axios
