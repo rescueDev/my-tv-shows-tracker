@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Season;
 use App\Show;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,9 @@ class ShowController extends Controller
      */
     public function index()
     {
-        $shows = Show::all();
+        $userLogged = Auth::user()->id;
+        $shows = Show::where('user_id', $userLogged)->get();
+        // dd($shows);
         return view('progress', compact('shows'));
     }
 
@@ -39,7 +42,7 @@ class ShowController extends Controller
     {
         // dd(Auth::user());
         $request->validate([
-            'name' => 'required|string|unique:shows',
+            'name' => 'required|string|unique:shows,user_id',
             'overview' => 'required',
             'first_air_date' => 'required|date',
             'vote_average' => 'required',
@@ -55,9 +58,16 @@ class ShowController extends Controller
         $show->original_language = $request->original_language;
         $show->user_id = $request->user_id;
         $show->poster = $request->poster_path;
+        $show->status = $request->status;
+
+
 
         $show->save();
-        dd($show);
+
+
+        foreach ($request->seasons as $key => $season) {
+            dd($season);
+        }
     }
 
     /**

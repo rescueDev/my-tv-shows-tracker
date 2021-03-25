@@ -10,6 +10,12 @@ class Show extends Model
     protected $fillable = [
         'name', 'overview',
         'first_air_date',
+        'season_count',
+        'vote_average',
+        'poster',
+        'status',
+        'original_language',
+        'user_id',
 
     ];
 

@@ -2010,7 +2010,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       trending: [],
       discover: [],
-      posterPath: "https://image.tmdb.org/t/p/w185"
+      posterPath: "https://image.tmdb.org/t/p/w185",
+      details: []
     };
   },
   created: function created() {
@@ -2039,21 +2040,38 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addShow: function addShow(show) {
-      console.log(show);
-      var addedShow = {
-        name: show.name,
-        overview: show.overview,
-        first_air_date: show.first_air_date,
-        vote_average: show.vote_average,
-        original_language: show.original_language,
-        user_id: this.auth,
-        poster_path: show.poster_path
-      }; // console.log(addedShow);
+      var _this2 = this;
 
-      axios.post("http://localhost:8000/shows", addedShow).then(function (response) {
-        if (response.status == 200) {
-          console.log("Success, show added", 200);
+      // console.log(show);
+      axios.get("https://api.themoviedb.org/3/tv/".concat(show.id), {
+        params: {
+          api_key: "".concat("a7c4877ed2ef5089283e2a5845b4c723")
         }
+      }).then(function (response) {
+        // console.log(response.data);
+        var det = response.data; // console.log("det", det);
+
+        _this2.details = det;
+        var addedShow = {
+          name: show.name,
+          overview: show.overview,
+          first_air_date: show.first_air_date,
+          vote_average: show.vote_average,
+          original_language: show.original_language,
+          user_id: _this2.auth,
+          poster_path: show.poster_path,
+          status: _this2.details.status,
+          seasons: _this2.details.seasons,
+          season_number: _this2.details.number_of_seasons
+        };
+        console.log("prima del post ", addedShow); // console.log("dettagli prima del post", this.details);
+
+        axios.post("http://localhost:8000/shows", addedShow).then(function (response) {
+          if (response.status == 200) {
+            console.log("Success, show added", 200);
+            console.log(response.data);
+          }
+        });
       });
     }
   }

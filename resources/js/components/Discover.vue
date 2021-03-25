@@ -54,7 +54,8 @@ export default {
         return {
             trending: [],
             discover: [],
-            posterPath: "https://image.tmdb.org/t/p/w185"
+            posterPath: "https://image.tmdb.org/t/p/w185",
+            details: []
         };
     },
     created: function() {
@@ -85,23 +86,41 @@ export default {
     },
     methods: {
         addShow: function(show) {
-            console.log(show);
-            const addedShow = {
-                name: show.name,
-                overview: show.overview,
-                first_air_date: show.first_air_date,
-                vote_average: show.vote_average,
-                original_language: show.original_language,
-                user_id: this.auth,
-                poster_path: show.poster_path
-            };
-            // console.log(addedShow);
+            // console.log(show);
             axios
-                .post("http://localhost:8000/shows", addedShow)
-                .then(response => {
-                    if (response.status == 200) {
-                        console.log("Success, show added", 200);
+                .get(`https://api.themoviedb.org/3/tv/${show.id}`, {
+                    params: {
+                        api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`
                     }
+                })
+                .then(response => {
+                    // console.log(response.data);
+                    const det = response.data;
+                    // console.log("det", det);
+                    this.details = det;
+
+                    const addedShow = {
+                        name: show.name,
+                        overview: show.overview,
+                        first_air_date: show.first_air_date,
+                        vote_average: show.vote_average,
+                        original_language: show.original_language,
+                        user_id: this.auth,
+                        poster_path: show.poster_path,
+                        status: this.details.status,
+                        seasons: this.details.seasons,
+                        season_number: this.details.number_of_seasons
+                    };
+                    console.log("prima del post ", addedShow);
+                    // console.log("dettagli prima del post", this.details);
+                    axios
+                        .post("http://localhost:8000/shows", addedShow)
+                        .then(response => {
+                            if (response.status == 200) {
+                                console.log("Success, show added", 200);
+                                console.log(response.data);
+                            }
+                        });
                 });
         }
     }
