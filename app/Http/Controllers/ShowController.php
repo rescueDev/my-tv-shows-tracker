@@ -40,9 +40,12 @@ class ShowController extends Controller
      */
     public function store(Request $request)
     {
-        // dd(Auth::user());
+
+        $seasons = $request->seasons;
+
+
         $request->validate([
-            'name' => 'required|string|unique:shows,user_id',
+            'name' => 'required|string|unique:shows,name',
             'overview' => 'required',
             'first_air_date' => 'required|date',
             'vote_average' => 'required',
@@ -59,15 +62,29 @@ class ShowController extends Controller
         $show->user_id = $request->user_id;
         $show->poster = $request->poster_path;
         $show->status = $request->status;
+        $show->season_count = $request->season_number;
 
 
 
         $show->save();
 
 
-        foreach ($request->seasons as $key => $season) {
-            dd($season);
+        foreach ($seasons as $key => $season) {
+
+
+            $seas = new Season;
+
+            $seas-> name = $season['name'];
+            $seas-> overview = $season['overview'];
+            $seas-> air_date = $season['air_date'];
+            $seas-> episode_count = $season['episode_count'];
+            $seas-> season_number = $season['season_number'];
+            $seas-> poster_path = $season['poster_path'];
+            $seas-> show_id = $show->id;
+            $seas->save();
+
         }
+        return response()->json('Season/s saved', 200);
     }
 
     /**

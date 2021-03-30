@@ -16,10 +16,12 @@ class CreateSeasonsTable extends Migration
         Schema::create('seasons', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('overview');
-            $table->date('first_air_date');
+            $table->text('overview')->nullable();
+            $table->date('air_date');
             $table->smallInteger('episode_count')->unsigned();
-            $table->string('poster')->nullable();
+            $table->smallInteger('season_number')->unsigned();
+
+            $table->string('poster_path')->nullable();
 
             $table->bigInteger('show_id')->unsigned();
 
