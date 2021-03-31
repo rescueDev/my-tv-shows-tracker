@@ -6,6 +6,8 @@ use App\Season;
 use App\Show;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+
 
 class ShowController extends Controller
 {
@@ -42,10 +44,10 @@ class ShowController extends Controller
     {
 
         $seasons = $request->seasons;
-
+        $userLogged = Auth::user()->id;
 
         $request->validate([
-            'name' => 'required|string|unique:shows,name',
+            'name' => ['required', 'string', Rule::unique('shows')->where('user_id', $userLogged )],
             'overview' => 'required',
             'first_air_date' => 'required|date',
             'vote_average' => 'required',
@@ -84,7 +86,7 @@ class ShowController extends Controller
             $seas->save();
 
         }
-        return response()->json('Season/s saved', 200);
+        return response()->json('Success added', 200);
     }
 
     /**

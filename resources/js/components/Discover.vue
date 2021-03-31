@@ -55,7 +55,8 @@ export default {
             trending: [],
             discover: [],
             posterPath: "https://image.tmdb.org/t/p/w185",
-            details: []
+            details: [],
+            add: ''
         };
     },
     created: function() {
@@ -87,6 +88,7 @@ export default {
     methods: {
         addShow: function(show) {
             // console.log(show);
+            var episodes = [];
             axios
                 .get(`https://api.themoviedb.org/3/tv/${show.id}`, {
                     params: {
@@ -96,8 +98,27 @@ export default {
                 .then(response => {
                     // console.log(response.data);
                     const det = response.data;
-                    // console.log("det", det);
+                    // console.log("how much seasons ?", det.seasons.length);
+                    var numbSeason = det.seasons.length;
                     this.details = det;
+
+
+                    for (let s = 1;  s <= numbSeason; s++ ) {
+
+                        axios.get(`https://api.themoviedb.org/3/tv/${show.id}`, {
+                            params: {
+                                api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`,
+                                append_to_response: `season/${s}`
+                            }})
+                            .then(response => {
+                                // console.log(response.data);
+                                let risposta = response.data;
+                                const stag = risposta[`season/${s}`];
+                                episodes.push(stag);
+                            })
+                    }
+
+                    console.log('Episodi aggiunti alla stagione',episodes);
 
                     const addedShow = {
                         name: show.name,
@@ -109,17 +130,17 @@ export default {
                         poster_path: show.poster_path,
                         status: this.details.status,
                         seasons: this.details.seasons,
-                        season_number: this.details.number_of_seasons
+                        season_number: this.details.number_of_seasons,
+                        episodes: episodes
                     };
+
+
                     console.log("prima del post ", addedShow);
                     // console.log("dettagli prima del post", this.details);
                     axios
                         .post("http://localhost:8000/shows", addedShow)
-                        .then(response => {
-                            if (response.status == 200) {
+                        .then(() => {
                                 console.log("Success, show added", 200);
-                                console.log(response.data);
-                            }
                         });
                 });
         }
