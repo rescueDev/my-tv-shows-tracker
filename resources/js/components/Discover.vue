@@ -56,7 +56,7 @@ export default {
             discover: [],
             posterPath: "https://image.tmdb.org/t/p/w185",
             details: [],
-            add: ''
+            showToAdd: ''
         };
     },
     created: function() {
@@ -86,64 +86,62 @@ export default {
             });
     },
     methods: {
-        addShow: function(show) {
+        async addShow(show) {
             // console.log(show);
             var episodes = [];
-            axios
-                .get(`https://api.themoviedb.org/3/tv/${show.id}`, {
-                    params: {
-                        api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`
-                    }
-                })
-                .then(response => {
-                    // console.log(response.data);
-                    const det = response.data;
-                    // console.log("how much seasons ?", det.seasons.length);
-                    var numbSeason = det.seasons.length;
-                    this.details = det;
 
+            try {
+                const singleShow = await axios.get(`https://api.themoviedb.org/3/tv/${show.id}`, {
+                        params: {
+                            api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`
+                        }
+                    })
 
-                    for (let s = 1;  s <= numbSeason; s++ ) {
+                const results = singleShow.data;
 
-                        axios.get(`https://api.themoviedb.org/3/tv/${show.id}`, {
-                            params: {
-                                api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`,
-                                append_to_response: `season/${s}`
-                            }})
-                            .then(response => {
-                                // console.log(response.data);
+                //get and attach episodes for each season
+                for (let s = 1;  s <= results.number_of_seasons; s++ ) {
+
+                    axios.get(`https://api.themoviedb.org/3/tv/${show.id}`, {
+                                params: {
+                                  api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`,
+                                  append_to_response: `season/${s}`
+                                }})
+                          .then(response => {
                                 let risposta = response.data;
                                 const stag = risposta[`season/${s}`];
                                 episodes.push(stag);
-                            })
-                    }
+                          })
+                }
 
-                    console.log('Episodi aggiunti alla stagione',episodes);
+                //show to add before post call
+                this.showToAdd = {
+                    name: results.name,
+                    overview: results.overview,
+                    first_air_date: results.first_air_date,
+                    vote_average: results.vote_average,
+                    original_language: results.original_language,
+                    user_id: this.auth,
+                    poster_path: results.poster_path,
+                    status: results.status,
+                    seasons: results.seasons,
+                    season_number: results.number_of_seasons,
+                    episodes: episodes
+                }
 
-                    const addedShow = {
-                        name: show.name,
-                        overview: show.overview,
-                        first_air_date: show.first_air_date,
-                        vote_average: show.vote_average,
-                        original_language: show.original_language,
-                        user_id: this.auth,
-                        poster_path: show.poster_path,
-                        status: this.details.status,
-                        seasons: this.details.seasons,
-                        season_number: this.details.number_of_seasons,
-                        episodes: episodes
-                    };
+            } catch (err) {
+                console.log(err);
+            }
 
+            // console.log(this.showToAdd);
 
-                    console.log("prima del post ", addedShow);
-                    // console.log("dettagli prima del post", this.details);
-                    axios
-                        .post("http://localhost:8000/shows", addedShow)
-                        .then(() => {
-                                console.log("Success, show added", 200);
-                        });
+            //post call, save in db
+            axios
+                .post("http://localhost:8000/shows", this.showToAdd)
+                .then(() => {
+                    console.log("Success, show added", 200);
                 });
         }
-    }
-};
+    },
+}
 </script>
