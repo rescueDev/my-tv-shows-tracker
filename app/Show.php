@@ -16,7 +16,7 @@ class Show extends Model
         'status',
         'original_language',
         'user_id',
-
+        'episodes'
     ];
 
     public function user()

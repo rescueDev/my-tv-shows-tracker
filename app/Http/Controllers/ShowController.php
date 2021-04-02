@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Episode;
 use App\Season;
 use App\Show;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 
@@ -20,7 +22,6 @@ class ShowController extends Controller
     {
         $userLogged = Auth::user()->id;
         $shows = Show::where('user_id', $userLogged)->get();
-        // dd($shows);
         return view('progress', compact('shows'));
     }
 
@@ -44,6 +45,7 @@ class ShowController extends Controller
     {
 
         $seasons = $request->seasons;
+        $episodes = $request->episodes;
         $userLogged = Auth::user()->id;
 
         $request->validate([
@@ -61,32 +63,69 @@ class ShowController extends Controller
         $show->first_air_date = $request->first_air_date;
         $show->vote_average = $request->vote_average;
         $show->original_language = $request->original_language;
-        $show->user_id = $request->user_id;
+        $show->user_id = $userLogged;
         $show->poster = $request->poster_path;
         $show->status = $request->status;
         $show->season_count = $request->season_number;
-
-
-
+//        $show->collect();
         $show->save();
 
 
-        foreach ($seasons as $key => $season) {
 
+//        foreach ($seasons as $key => $season) {
+//
+//
+//            $seas = new Season;
+//
+//            $seas-> name = $season['name'];
+//            $seas-> overview = $season['overview'];
+//            $seas-> air_date = $season['air_date'];
+//            $seas-> episode_count = $season['episode_count'];
+//            $seas-> season_number = $season['season_number'];
+//            $seas-> poster_path = $season['poster_path'];
+//            $seas-> show_id = $show->id;
+////            $seas->show()->associate($show);
+//            $seas->save();
+//
+//        }
+//        return response()->json(var_dump());
+
+        foreach ($episodes as $key => $episode) {
 
             $seas = new Season;
 
-            $seas-> name = $season['name'];
-            $seas-> overview = $season['overview'];
-            $seas-> air_date = $season['air_date'];
-            $seas-> episode_count = $season['episode_count'];
-            $seas-> season_number = $season['season_number'];
-            $seas-> poster_path = $season['poster_path'];
+            $seas-> name = $episode['name'];
+            $seas-> overview = $episode['overview'];
+            $seas-> air_date = $episode['air_date'];
+            $seas-> episode_count = count($episode['episodes']);
+            $seas-> season_number = $episode['season_number'];
+            $seas-> poster_path = $episode['poster_path'];
             $seas-> show_id = $show->id;
+//            $seas->show()->associate($show);
             $seas->save();
 
+
+            foreach ($episode['episodes'] as $epSeas) {
+
+                $ep = new Episode;
+                $ep->name = $epSeas['name'];
+                $ep->overview = $epSeas['overview'];
+                $ep->season_number = $epSeas['season_number'];
+                $ep->first_air_date = $epSeas['air_date'];
+                $ep->episode_number = $epSeas['episode_number'];
+                $ep->rating = $epSeas['vote_average'];
+                $ep->image = $epSeas['still_path'];
+                $ep->season_id = $seas->id;
+                $ep->save();
+
+
+            }
+//            return response()->json(var_dump($ep));
+
         }
-        return response()->json('Success added', 200);
+
+
+        return response()->json('added', 200);
     }
 
     /**

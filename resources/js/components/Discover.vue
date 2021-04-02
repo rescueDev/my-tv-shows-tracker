@@ -56,7 +56,8 @@ export default {
             discover: [],
             posterPath: "https://image.tmdb.org/t/p/w185",
             details: [],
-            showToAdd: ''
+            showToAdd: {},
+            epArray: [],
         };
     },
     created: function() {
@@ -88,32 +89,33 @@ export default {
     methods: {
         async addShow(show) {
             // console.log(show);
-            var episodes = [];
+            const episodes = [];
 
             try {
                 const singleShow = await axios.get(`https://api.themoviedb.org/3/tv/${show.id}`, {
-                        params: {
-                            api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`
-                        }
-                    })
+                    params: {
+                        api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`
+                    }
+                })
 
                 const results = singleShow.data;
 
                 //get and attach episodes for each season
                 for (let s = 1;  s <= results.number_of_seasons; s++ ) {
 
-                    axios.get(`https://api.themoviedb.org/3/tv/${show.id}`, {
-                                params: {
-                                  api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`,
-                                  append_to_response: `season/${s}`
-                                }})
-                          .then(response => {
-                                let risposta = response.data;
-                                const stag = risposta[`season/${s}`];
-                                episodes.push(stag);
-                          })
+                    var getEpisodes = await axios.get(`https://api.themoviedb.org/3/tv/${show.id}`, {
+                        params: {
+                            api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`,
+                            append_to_response: `season/${s}`
+                        }});
+
+                    const getEpData =  getEpisodes.data;
+                    let stag = getEpData[`season/${s}`];
+                    // console.log(stag);
+                    this.epArray.push(stag);
                 }
 
+                // console.log('epArray', this.epArray)
                 //show to add before post call
                 this.showToAdd = {
                     name: results.name,
@@ -126,21 +128,24 @@ export default {
                     status: results.status,
                     seasons: results.seasons,
                     season_number: results.number_of_seasons,
-                    episodes: episodes
+                    episodes: this.epArray
                 }
+
+                console.log('episodi prima del post',this.showToAdd);
+
+                //post call, save in db
+                axios
+                    .post("http://localhost:8000/shows", this.showToAdd)
+                    .then((r) => {
+                        console.log(r.data);
+                        this.epArray = [];
+                        this.showToAdd = [];
+                        console.log("Success, show added", 200);
+                    });
 
             } catch (err) {
                 console.log(err);
             }
-
-            // console.log(this.showToAdd);
-
-            //post call, save in db
-            axios
-                .post("http://localhost:8000/shows", this.showToAdd)
-                .then(() => {
-                    console.log("Success, show added", 200);
-                });
         }
     },
 }

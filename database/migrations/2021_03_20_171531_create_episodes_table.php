@@ -19,7 +19,7 @@ class CreateEpisodesTable extends Migration
             $table->text('overview')->nullable();
             $table->date('first_air_date');
             $table->smallInteger('rating')->nullable()->unsigned();
-            $table->smallInteger('image')->nullable();
+            $table->string('image')->nullable();
             $table->bigInteger('season_id')->unsigned();
             $table->smallInteger('season_number')->unsigned();
             $table->smallInteger('episode_number')->unsigned();
