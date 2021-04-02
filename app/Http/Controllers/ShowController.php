@@ -71,25 +71,6 @@ class ShowController extends Controller
         $show->save();
 
 
-
-//        foreach ($seasons as $key => $season) {
-//
-//
-//            $seas = new Season;
-//
-//            $seas-> name = $season['name'];
-//            $seas-> overview = $season['overview'];
-//            $seas-> air_date = $season['air_date'];
-//            $seas-> episode_count = $season['episode_count'];
-//            $seas-> season_number = $season['season_number'];
-//            $seas-> poster_path = $season['poster_path'];
-//            $seas-> show_id = $show->id;
-////            $seas->show()->associate($show);
-//            $seas->save();
-//
-//        }
-//        return response()->json(var_dump());
-
         foreach ($episodes as $key => $episode) {
 
             $seas = new Season;
@@ -120,8 +101,6 @@ class ShowController extends Controller
 
 
             }
-//            return response()->json(var_dump($ep));
-
         }
 
 
@@ -134,9 +113,10 @@ class ShowController extends Controller
      * @param  \App\Show  $show
      * @return \Illuminate\Http\Response
      */
-    public function show(Show $show)
+    public function show($id)
     {
-        //
+        $show = Show::findOrFail($id);
+        return view('show-serie', compact('show'));
     }
 
     /**

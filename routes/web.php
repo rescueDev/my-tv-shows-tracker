@@ -37,3 +37,5 @@ Route::get('/profile', function () {
 
 Route::get('/progress', 'ShowController@index');
 Route::post('/shows', 'ShowController@store');
+
+Route::get('/show/{id}', 'ShowController@show')->name('show-serie');
