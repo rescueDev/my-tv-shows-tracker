@@ -38,4 +38,8 @@ Route::get('/profile', function () {
 Route::get('/progress', 'ShowController@index');
 Route::post('/shows', 'ShowController@store');
 
+//show serie
 Route::get('/show/{id}', 'ShowController@show')->name('show-serie');
+
+// mark as watched episode
+Route::post('/show/ep/{id}/check' , 'EpisodeController@update')->name('check-episode');

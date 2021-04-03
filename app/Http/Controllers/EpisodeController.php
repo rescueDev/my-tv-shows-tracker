@@ -67,9 +67,10 @@ class EpisodeController extends Controller
      * @param  \App\Episode  $episode
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Episode $episode)
+    public function update(Request $request, $id)
     {
-        //
+        $episode = Episode::findOrFail($id);
+        dd($episode);
     }
 
     /**
