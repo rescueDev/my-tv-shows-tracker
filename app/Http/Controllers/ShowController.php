@@ -25,6 +25,12 @@ class ShowController extends Controller
         return view('progress', compact('shows'));
     }
 
+    public function watched()
+    {
+        $watched = Show::onlyTrashed()->get();
+        return view('watched', compact('watched'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -67,7 +73,7 @@ class ShowController extends Controller
         $show->poster = $request->poster_path;
         $show->status = $request->status;
         $show->season_count = $request->season_number;
-//        $show->collect();
+
         $show->save();
 
 
@@ -82,7 +88,7 @@ class ShowController extends Controller
             $seas-> season_number = $episode['season_number'];
             $seas-> poster_path = $episode['poster_path'];
             $seas-> show_id = $show->id;
-//            $seas->show()->associate($show);
+
             $seas->save();
 
 
@@ -103,7 +109,6 @@ class ShowController extends Controller
             }
         }
 
-
         return response()->json('added', 200);
     }
 
@@ -116,6 +121,8 @@ class ShowController extends Controller
     public function show($id)
     {
         $show = Show::findOrFail($id);
+        $seasons = $show->seasons()->where('deleted_at', NULL)->get();
+//        dd($seasons);
         return view('show-serie', compact('show'));
     }
 
@@ -140,6 +147,7 @@ class ShowController extends Controller
     public function update(Request $request, Show $show)
     {
         //
+
     }
 
     /**

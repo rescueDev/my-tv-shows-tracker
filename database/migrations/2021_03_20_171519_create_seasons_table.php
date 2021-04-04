@@ -20,12 +20,9 @@ class CreateSeasonsTable extends Migration
             $table->date('air_date');
             $table->smallInteger('episode_count')->unsigned();
             $table->smallInteger('season_number')->unsigned();
-
             $table->string('poster_path')->nullable();
-
             $table->bigInteger('show_id')->unsigned();
-
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
 
+<!--    --><?php //dd($show->where('name', 'Cobra Kai')) ?>
+
+
     <div class="container-fluid">
         <div class="mx-auto row">
             <div class="mt-3 col-sm-12 d-flex flex-wrap" style=" min-height: 300px">
@@ -56,7 +59,11 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Mark As Watched</button>
+                                                        <form action="{{route('check-episode', $episode->id)}}" method="POST">
+                                                            @csrf
+                                                            @method('POST')
+                                                            <button type="submit" class="btn btn-primary">Mark As Watched</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -76,6 +83,5 @@
             </div>
         </div>
 
-   </div>
 
 @endsection

@@ -23,6 +23,7 @@ class CreateEpisodesTable extends Migration
             $table->bigInteger('season_id')->unsigned();
             $table->smallInteger('season_number')->unsigned();
             $table->smallInteger('episode_number')->unsigned();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

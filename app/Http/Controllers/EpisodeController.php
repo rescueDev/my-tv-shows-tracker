@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Episode;
+use App\Season;
+use App\Show;
 use Illuminate\Http\Request;
 
 class EpisodeController extends Controller
@@ -70,7 +72,50 @@ class EpisodeController extends Controller
     public function update(Request $request, $id)
     {
         $episode = Episode::findOrFail($id);
-        dd($episode);
+
+        //episode has been watched
+        $episode->delete();
+
+        //which season episode belongs?
+        $season = $episode->season()->get();
+
+        //which show season belongs?
+        $show = $season[0]->show()->get();
+
+
+        foreach ($season as $seas) {
+
+            $epSeas = $seas->episodes()->get();
+
+            //find all episodes to be watched yet
+            $epTrashed = $epSeas->each(function ($ep) {
+                return $ep->where('deleted_at', NULL);
+            });
+
+            //delete season when all episodes are watched
+            if (count($epTrashed) === 0) {
+
+                $seas->delete();
+
+                //all seasons
+                $allSeas = $show[0]->seasons()->get();
+
+                //delete show if all seasons have been watched
+                if (count($allSeas) === 0) {
+
+                    $show[0]->delete();
+
+                    return redirect('/progress');
+                }
+            }
+
+
+//            }
+
+        }
+
+        return redirect()->back();
+
     }
 
     /**

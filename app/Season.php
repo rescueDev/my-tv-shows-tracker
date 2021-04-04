@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Season extends Model
 {
+
+    use SoftDeletes;
+
 
     protected $fillable = [
         'name',
@@ -24,6 +28,6 @@ class Season extends Model
 
     public function show()
     {
-        return $this->belongsTo(Show::class);
+        return $this->belongsTo(Show::class );
     }
 }
