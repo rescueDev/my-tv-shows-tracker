@@ -73,6 +73,7 @@ class ShowController extends Controller
         $show->poster = $request->poster_path;
         $show->status = $request->status;
         $show->season_count = $request->season_number;
+        $show->backdrop_path = $request->backdrop_path;
 
         $show->save();
 
@@ -120,9 +121,8 @@ class ShowController extends Controller
      */
     public function show($id)
     {
-        $show = Show::findOrFail($id);
-        $seasons = $show->seasons()->where('deleted_at', NULL)->get();
-//        dd($seasons);
+        $show = Show::withTrashed()->findOrFail($id);
+
         return view('show-serie', compact('show'));
     }
 

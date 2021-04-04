@@ -24,6 +24,13 @@
     background-color: rgba($color: #2927278d, $alpha: 0.2);
 }
 
+
+.show-title{
+    color: white;
+    width: fit-content;
+    padding: 8px;
+    background: rgba(0,0,0, 0.5);
+}
 //.episodes-box {
 //    width: 20%;
 //}
@@ -34,5 +41,35 @@ li {
 
 .modal-s-e {
     background: rgba(0,0,0,0.5);
+}
+
+.loader-container {
+    background: rgba(0,0,0,0.3);
+        position: relative;
+}
+
+//loader
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 

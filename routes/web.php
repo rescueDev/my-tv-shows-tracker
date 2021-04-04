@@ -40,6 +40,7 @@ Route::post('/shows', 'ShowController@store');
 
 //show serie
 Route::get('/show/{id}', 'ShowController@show')->name('show-serie');
+//Route::get('/watched/show/{id}', 'ShowController@showWatched')->name('show-watched');
 
 // mark as watched episode
 Route::post('/show/ep/{id}/check' , 'EpisodeController@update')->name('check-episode');

@@ -1,6 +1,23 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
+
+<!--        <div v-show="loading" class="lds-ring"><div></div><div></div><div></div><div></div></div>-->
+        <div  v-show="loading" class="loader-container">
+            <div class="loader"></div>
+        </div>
+
+        <!--   search bar-->
         <div class="row">
+            <nav class="navbar navbar-light bg-light">
+                <form class="form-inline" @submit.prevent="search">
+                    <input v-model="input" class="form-control mr-md-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
+                </form>
+            </nav>
+        </div>
+
+
+        <div v-if="!searching" class="row">
             <h3 class="mt-4">
                 Trending Shows
             </h3>
@@ -21,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div v-if="!searching" class="row">
             <h3 class="mt-4">
                 Discover Shows
             </h3>
@@ -37,6 +54,34 @@
                         class="rounded-sm poster"
                         :src="posterPath + show.poster_path"
                         alt=""
+                    />
+                    <i class="far fa-plus-square" @click="addShow(show)"></i>
+                </div>
+            </div>
+        </div>
+
+<!--        Search Results-->
+        <div v-else class="row mx-auto">
+            <h3 class="mt-4">
+                Results
+            </h3>
+            <div
+                class="col-sm-12 d-flex flex-wrap justify-content-evenly mt-1"
+            >
+                <div
+                    class="results mr-3 mt-3 mb-3"
+                    :key="show.id"
+                    v-for="show in searched"
+                >
+                    <img v-if="show.poster_path"
+                        class="rounded-sm poster"
+                        :src="posterPath + show.poster_path"
+                        alt=""
+                    />
+                    <img v-else
+                         class="rounded-sm poster"
+                         :src="'/public/notfound.jpg'"
+                         alt="poster"
                     />
                     <i class="far fa-plus-square" @click="addShow(show)"></i>
                 </div>
@@ -58,11 +103,18 @@ export default {
             details: [],
             showToAdd: {},
             epArray: [],
+            searched: [],
+            input: "",
+            page: 1,
+            searching: false,
+            loading: false
         };
     },
     created: function() {
         //trending shows
-        console.log(this.auth);
+        // console.log(this.auth);
+        this.loading = true;
+
         axios
             .get("https://api.themoviedb.org/3/trending/tv/day", {
                 params: {
@@ -85,18 +137,24 @@ export default {
                 const results = r.data.results;
                 this.discover = results;
             });
+
+            this.loading = false;
+
     },
     methods: {
         async addShow(show) {
             // console.log(show);
+            this.loading = true;
             const episodes = [];
 
             try {
-                const singleShow = await axios.get(`https://api.themoviedb.org/3/tv/${show.id}`, {
-                    params: {
-                        api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`
-                    }
-                })
+
+                    const singleShow = await axios.get(`https://api.themoviedb.org/3/tv/${show.id}`, {
+                        params: {
+                            api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`
+                        }
+                    })
+
 
                 const results = singleShow.data;
 
@@ -128,6 +186,7 @@ export default {
                     status: results.status,
                     seasons: results.seasons,
                     season_number: results.number_of_seasons,
+                    backdrop_path: results.backdrop_path,
                     episodes: this.epArray
                 }
 
@@ -141,12 +200,40 @@ export default {
                         this.epArray = [];
                         this.showToAdd = [];
                         console.log("Success, show added", 200);
+                        this.loading= false;
                     });
 
             } catch (err) {
                 console.log(err);
             }
+        },
+        async search() {
+            this.searching = true;
+            this.loading = true;
+
+            try {
+
+
+                const research = await axios.get("https://api.themoviedb.org/3/search/tv", {
+                    params: {
+                        api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`,
+                        query: this.input,
+                        page: this.page
+                    }
+                });
+                const results = research.data.results
+                // console.log(results);
+                this.searched = results;
+                this.input = "";
+                this.loading = false;
+
+                // console.log(this.searched);
+            }
+            catch (e) {
+                console.log(e);
+            }
         }
     },
+
 }
 </script>

@@ -23,6 +23,7 @@ class CreateShowsTable extends Migration
             $table->string('poster')->nullable();
             $table->string('status')->nullable();
             $table->string('original_language');
+            $table->string('backdrop_path')->nullable();
             $table->softDeletes();
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
