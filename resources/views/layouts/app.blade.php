@@ -13,6 +13,9 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+    {{--    jQuery--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -24,6 +27,9 @@
 
 <body>
     <div id="app">
+
+
+
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -84,8 +90,17 @@
                 @include('components.nav')
             @endif
             @yield('content')
+                <div class="loader-wrapper">
+                    <span class="loader"><span class="loader-inner"></span></span>
+                </div>
         </main>
     </div>
+
+<script type="text/javascript">
+    $(window).on("load",function(){
+        $(".loader-wrapper").fadeOut("slow");
+    });
+</script>
 </body>
 
 </html>

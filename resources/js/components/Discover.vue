@@ -1,10 +1,12 @@
 <template>
     <div class="container-fluid">
 
-<!--        <div v-show="loading" class="lds-ring"><div></div><div></div><div></div><div></div></div>-->
-        <div  v-show="loading" class="loader-container">
-            <div class="loader"></div>
-        </div>
+
+        <loading :active.sync="isLoading"
+                 :can-cancel="true"
+                 :is-full-page="fullPage">
+
+        </loading>
 
         <!--   search bar-->
         <div class="row">
@@ -63,7 +65,7 @@
 <!--        Search Results-->
         <div v-else class="row mx-auto">
             <h3 class="mt-4">
-                Results
+                Results for {{query}}
             </h3>
             <div
                 class="col-sm-12 d-flex flex-wrap justify-content-evenly mt-1"
@@ -90,10 +92,18 @@
     </div>
 </template>
 <script>
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 export default {
     name: "Find",
     props: {
         auth: Number
+    },
+    components: {
+            Loading
     },
     data() {
         return {
@@ -107,14 +117,17 @@ export default {
             input: "",
             page: 1,
             searching: false,
-            loading: false
+            loading: false,
+            isLoading: false,
+            fullPage: true,
+            loader: 'bars',
+            query: this.input,
         };
     },
     created: function() {
-        //trending shows
-        // console.log(this.auth);
-        this.loading = true;
 
+        //trending shows
+        this.isLoading = true;
         axios
             .get("https://api.themoviedb.org/3/trending/tv/day", {
                 params: {
@@ -136,19 +149,18 @@ export default {
                 // console.log(r.data);
                 const results = r.data.results;
                 this.discover = results;
+                this.isLoading = false;
             });
-
-            this.loading = false;
 
     },
     methods: {
         async addShow(show) {
             // console.log(show);
-            this.loading = true;
+
             const episodes = [];
 
             try {
-
+                this.isLoading = true;
                     const singleShow = await axios.get(`https://api.themoviedb.org/3/tv/${show.id}`, {
                         params: {
                             api_key: `${process.env.MIX_VUE_APP_TMDB_KEY}`
@@ -200,19 +212,22 @@ export default {
                         this.epArray = [];
                         this.showToAdd = [];
                         console.log("Success, show added", 200);
-                        this.loading= false;
-                    });
+                        this.isLoading= false;
+                    }).catch(error => {
+                        console.log('errors: ', error);
+                        this.isLoading= false;
+                });
 
             } catch (err) {
                 console.log(err);
+                this.isLoading= false;
             }
         },
         async search() {
             this.searching = true;
-            this.loading = true;
+            this.isLoading = true;
 
             try {
-
 
                 const research = await axios.get("https://api.themoviedb.org/3/search/tv", {
                     params: {
@@ -221,16 +236,19 @@ export default {
                         page: this.page
                     }
                 });
+
                 const results = research.data.results
                 // console.log(results);
                 this.searched = results;
                 this.input = "";
-                this.loading = false;
+                this.isLoading = false;
 
                 // console.log(this.searched);
             }
             catch (e) {
                 console.log(e);
+                this.isLoading = false;
+
             }
         }
     },
