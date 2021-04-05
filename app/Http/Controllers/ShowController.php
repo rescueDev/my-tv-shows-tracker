@@ -31,6 +31,24 @@ class ShowController extends Controller
         return view('watched', compact('watched'));
     }
 
+    public function showWatched($id)
+    {
+        $show = Show::withTrashed()->findOrFail($id);
+        $seasons = $show->seasons()->withTrashed()->get();
+        $seasonsWatched = [];
+        foreach ($seasons as $key=>$season) {
+//            $episodes = Episode::onlyTrashed()->where('season_id', $season->id)->get();
+//                $seasonsWatched[] = $season->episodes()->withTrashed()->get();
+                $episodes = $season->episodes()->withTrashed()->where('season_id', $season->id)->get();
+            $season->episodes()->saveMany($episodes);
+//                $season['episodes'] = $episodes;
+
+        }
+        collect($seasonsWatched);
+
+        return view('show-watched', compact('show', 'seasonsWatched', 'seasons'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -122,7 +140,6 @@ class ShowController extends Controller
     public function show($id)
     {
         $show = Show::withTrashed()->findOrFail($id);
-
         return view('show-serie', compact('show'));
     }
 
@@ -166,7 +183,6 @@ class ShowController extends Controller
         }
 
 
-//        dd($show);
         return redirect()->back();
     }
 
