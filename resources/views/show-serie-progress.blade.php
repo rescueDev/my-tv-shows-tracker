@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-<!--    --><?php //dd($show->where('name', 'Cobra Kai')) ?>
-
 
     <div class="container-fluid">
         <div class="mx-auto row">

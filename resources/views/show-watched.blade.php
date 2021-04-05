@@ -22,26 +22,21 @@
 
                     <li class="mt-3"><h4>{{$season->name}}</h4></li>
                     <br>
-                    <ul class="col-sm-12 d-flex flex-wrap mr-1 justify-content-evenly  mt-3">
+                    <ul class="col-sm-12 d-flex flex-wrap justify-content-between mr-3 ml-3 mt-3">
 
 
                         <?php $episodes = $season->episodes()->withTrashed()->get(); ?>
 
                         @foreach($episodes as $episode )
-                            <form class="episodes-box mb-2 mr-2 ml-2 mt-2"
-                                  action="{{route('check-episode', $episode->id)}}" method="POST">
-                                @csrf
-                                @method('POST')
+                            <div class="episodes-box mb-2 mt-3"
+                                  style="width: 342px">
 
-
-                                <div class="ep-poster mb-2">
+                                <div class="ep-poster mb-2" style="width: fit-content">
                                     <a class="cont-img-ep" href="#" data-toggle="modal"
                                        data-target="#exampleModalCenter<?php echo $count; ?>">
                                         <img class="" src="{{'https://image.tmdb.org/t/p/w342' . $episode->image}}"
                                              alt="ep-poster">
                                     </a>
-                                    <button class="watched-check btn btn-success mr-3" type="submit"><i
-                                            class="far fa-check-square"></i></button>
                                 </div>
                                 <h5>{{$episode->episode_number . ' - ' . $episode->name}}</h5>
 
@@ -83,7 +78,7 @@
                                     </div>
                                 </div>
 
-                            </form>
+                            </div>
 
 
                             <?php $count++; ?>
