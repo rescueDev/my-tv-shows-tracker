@@ -4,8 +4,8 @@
     <div class="container-fluid">
         <div class="mx-auto row">
             <div class="mt-3 col-sm-12 d-flex flex-wrap" style=" min-height: 300px">
-                    <div class="poster-box col-12 mr-3 mt-3 mb-3" style="background-image: url('{{'https://image.tmdb.org/t/p/w780' . $show->backdrop_path}}'); background-size: cover; min-height: 400px">
-                        <h2 class="show-title mt-2"> <strong>{{$show->name}}</strong></h2>
+                    <div class="poster-box col-12 mr-3 mt-3 mb-3" style="background-position: center;background-image: url('{{'https://image.tmdb.org/t/p/original' . $show->backdrop_path}}'); background-size: cover; min-height: 400px">
+                        <h1 class="show-title mt-2"> <strong>{{$show->name}}</strong></h1>
                     </div>
             </div>
         </div>
@@ -16,13 +16,13 @@
                     <br>
                     <?php $count = 0; ?>
                 @foreach($show->seasons as $season)
-                        <li class="mt-3" ><h4>{{$season->name}}</h4></li>
+                        <h2  class="mt-4">{{$season->name}}</h2>
                         <br>
-                        <ul class="col-sm-12 d-flex flex-wrap justify-content-between mr-3 ml-3 mt-3">
+                        <ul class="col-sm-12 d-flex flex-wrap justify-content-evenly mr-3 ml-3 mt-1">
 
 
                             @foreach($season->episodes as $episode)
-                                    <form class="episodes-box mb-2 mt-3 " action="{{route('check-episode', $episode->id)}}" method="POST" style="width: 342px">
+                                    <form class="episodes-box mb-2 mt-3  mr-3" action="{{route('check-episode', $episode->id)}}" method="POST" style="width: 342px">
                                         @csrf
                                         @method('POST')
 

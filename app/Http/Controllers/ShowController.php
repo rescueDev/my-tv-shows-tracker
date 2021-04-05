@@ -27,7 +27,8 @@ class ShowController extends Controller
 
     public function watched()
     {
-        $watched = Show::onlyTrashed()->get();
+        $userLogged = Auth::user()->id;
+        $watched = Show::onlyTrashed()->where('user_id', $userLogged)->get();
         return view('watched', compact('watched'));
     }
 

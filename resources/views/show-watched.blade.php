@@ -5,7 +5,7 @@
         <div class="mx-auto row">
             <div class="mt-3 col-sm-12 d-flex flex-wrap" style=" min-height: 300px">
                 <div class="poster-box col-12 mr-3 mt-3 mb-3"
-                     style="background-image: url('{{'https://image.tmdb.org/t/p/w780' . $show->backdrop_path}}'); background-size: cover; min-height: 400px">
+                     style="background-position: center;background-image: url('{{'https://image.tmdb.org/t/p/w780' . $show->backdrop_path}}'); background-size: cover; min-height: 400px">
                     <h2 class="show-title mt-2"><strong>{{$show->name}}</strong></h2>
                 </div>
             </div>

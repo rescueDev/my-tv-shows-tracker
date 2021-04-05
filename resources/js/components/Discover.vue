@@ -9,7 +9,7 @@
         </loading>
 
         <!--   search bar-->
-        <div class="row">
+        <div class="row d-flex justify-content-center">
             <nav class="navbar navbar-light bg-light">
                 <form class="form-inline" @submit.prevent="search">
                     <input v-model="input" class="form-control mr-md-2" type="search" placeholder="Search" aria-label="Search">
@@ -19,7 +19,7 @@
         </div>
 
 
-        <div v-if="!searching" class="row">
+        <div v-if="!searching" class="row ">
             <h3 class="mt-4">
                 Trending Shows
             </h3>
