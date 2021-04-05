@@ -47,3 +47,10 @@ Route::post('/show/ep/{id}/check' , 'EpisodeController@update')->name('check-epi
 
 //watched series
 Route::get('/watched', 'ShowController@watched')->name('watched');
+
+//make a show all watched in one click
+Route::post('/watched/show/{id}', 'ShowController@update')->name('watched-show');
+
+
+//delete show
+Route::delete('/show/{id}', 'ShowController@destroy')->name('delete-show');

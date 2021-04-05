@@ -9,6 +9,16 @@
                         <a href="{{route('show-serie', $show->id)}}">
                             <img src="{{ 'https://image.tmdb.org/t/p/w185' . $show->poster }}" alt="">
                         </a>
+                        <form action="{{route('delete-show', $show->id)}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                        <form action="{{route('watched-show', $show->id)}}" method="post">
+                            @csrf
+                            @method('POST')
+                            <button type="submit" class="btn btn-warning">Watched</button>
+                        </form>
                     </div>
                 @endforeach
             </div>

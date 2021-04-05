@@ -144,10 +144,30 @@ class ShowController extends Controller
      * @param  \App\Show  $show
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Show $show)
+    public function update($id)
     {
-        //
+        // update show to watched
+        $show = Show::findOrFail($id);
 
+        $seasons = $show->seasons()->get();
+
+        foreach ($seasons as $season) {
+            $episodes = $season->episodes()->get();
+
+
+            $episodes->each(function ($ep) {
+                return $ep->delete();
+            });
+
+
+            $season->delete();
+
+            $show->delete();
+        }
+
+
+//        dd($show);
+        return redirect()->back();
     }
 
     /**
@@ -156,8 +176,12 @@ class ShowController extends Controller
      * @param  \App\Show  $show
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Show $show)
+    public function destroy($id)
     {
-        //
+        //remove show from progress
+        $show = Show::findOrFail($id);
+        $show->forceDelete();
+        $show->seasons()->forceDelete();
+        return redirect()->back();
     }
 }
