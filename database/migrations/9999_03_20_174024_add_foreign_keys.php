@@ -18,18 +18,21 @@ class AddForeignKeys extends Migration
         Schema::table('shows', function (Blueprint $table) {
             $table->foreign('user_id', 'show-user')
                 ->references('id')
-                ->on('users');  //nome tabella da agganciare
+                ->on('users')
+                ->onDelete('cascade');  //nome tabella da agganciare
         });
 
         Schema::table('seasons', function (Blueprint $table) {
             $table->foreign('show_id', 'season-show')
                 ->references('id')
-                ->on('shows');  //nome tabella da agganciare
+                ->on('shows')
+                ->onDelete('cascade');  //nome tabella da agganciare
         });
         Schema::table('episodes', function (Blueprint $table) {
             $table->foreign('season_id', 'episode-season')
                 ->references('id')
-                ->on('seasons');  //nome tabella da agganciare
+                ->on('seasons')
+                ->onDelete('cascade');  //nome tabella da agganciare
         });
 
 
