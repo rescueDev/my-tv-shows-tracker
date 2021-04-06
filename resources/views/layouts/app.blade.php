@@ -13,8 +13,10 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    {{--    jQuery--}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+    {{-- jQuery --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -26,14 +28,12 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" style="min-height: 100vh">
 
-
-
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-warning">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    MyTV
+                    MyTV Tracker
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -43,7 +43,17 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav mr-auto d-flex justify-content-around col-10">
+                        <a class="font-weight-bold nav-item nav-link text-secondary"
+                            href="{{ url('/home') }}">Home</a>
+                        <a class="font-weight-bold nav-item nav-link text-secondary"
+                            href="{{ url('/progress') }}">Progress</a>
+                        <a class="font-weight-bold nav-item nav-link text-secondary"
+                            href="{{ url('/watched') }}">Watched</a>
+                        <a class="font-weight-bold nav-item nav-link text-secondary"
+                            href="{{ url('/discover') }}">Discover</a>
+                        <a class="font-weight-bold nav-item nav-link text-secondary"
+                            href="{{ url('/profile') }}">Profile</a>
 
                     </ul>
 
@@ -70,7 +80,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                             document.getElementById('logout-form').submit();">
+                                                                                                                                                                                                                 document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -86,21 +96,22 @@
         </nav>
 
         <main class="py-0">
-            @if (Auth::user())
-                @include('components.nav')
-            @endif
             @yield('content')
-                <div class="loader-wrapper">
-                    <span class="loader"><span class="loader-inner"></span></span>
-                </div>
+            <div class="loader-wrapper">
+                <span class="loader"><span class="loader-inner"></span></span>
+            </div>
+            {{-- @if (Auth::user())
+                @include('components.nav')
+            @endif --}}
         </main>
     </div>
 
-<script type="text/javascript">
-    $(window).on("load",function(){
-        $(".loader-wrapper").fadeOut("slow");
-    });
-</script>
+    <script type="text/javascript">
+        $(window).on("load", function() {
+            $(".loader-wrapper").fadeOut("slow");
+        });
+
+    </script>
 </body>
 
 </html>

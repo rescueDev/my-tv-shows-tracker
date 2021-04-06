@@ -45,7 +45,7 @@ Route::get('/show/{id}', 'ShowController@show')->name('show-serie');
 Route::get('/watched/show/{id}', 'ShowController@showWatched')->name('show-watched-serie');
 
 // mark as watched episode
-Route::post('/show/ep/{id}/check' , 'EpisodeController@update')->name('check-episode');
+Route::post('/show/ep/{id}/check', 'EpisodeController@update')->name('check-episode');
 
 //watched series
 Route::get('/watched', 'ShowController@watched')->name('watched');
@@ -56,3 +56,10 @@ Route::post('/watched/show/{id}', 'ShowController@update')->name('watched-show')
 
 //delete show
 Route::delete('/show/{id}', 'ShowController@destroy')->name('delete-show');
+
+
+//upload User Img
+Route::post('/upload/avatar', 'UserController@uploadAvatar')->name('upload-avatar');
+
+//clear User img
+Route::get('/clear/avatar', 'UserController@clearImg')->name('clear-avatar');
