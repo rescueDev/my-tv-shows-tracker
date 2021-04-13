@@ -7,30 +7,30 @@ Track your favourite tv-shows progress
 * [Technologies](#technologies)
 * [Setup](#setup)
 
-##### work in progress...
+##### the project is still in progress...
 
 ## General info
 
 ### Login/Register user first
-<p>You can register multiple users and log each one</p>
+You can register multiple users and log each one
 
 ### Profile
-<p>User dashboard with personal information and avatar upload option</p>
+User dashboard with personal information and avatar upload option
 
 ### Progress
-<p>In this section will be visible all tv-shows in progress, you can delete or check as watched the single show.
-    Clicking on each one you can see all show details, seasons and episodes.  
-</p>
+In this section will be visible all tv-shows in progress, you can delete or check as watched the single show.
+Clicking on each one you can see all show details, seasons and episodes.  
+
 
 ### Watched
-<p>All watched show are displayed here</p>
+All watched show are displayed here.
 
 ### Discover
-<p>In this section you can search for any tv show, add one to your progress.</p>
+In this section you can search for any tv show, add one to your progress.
 
 ## Setup
 
-1) Clone this repository
+1) Clone this repository:
 `````
 git clone 
 `````
@@ -38,20 +38,20 @@ git clone
  `````
 cd my-tv-show-tracker
 ``````
-3)check .env file and type your DBMS password 
+3) Check .env file and type your DBMS password.
 
 <br>
 
-4)Create a new database named my-tv-show-tracker in PhpMyAdmin or other 
+4)Create a new database named my-tv-show-tracker in PhpMyAdmin or other. 
 
 <br>
 
-5)Run migration from terminal 
+5) Run migration from terminal: 
 
 
 ````    php artisan migrate --refresh ````
 
-6) Start backend server and frontend
+6) Start backend server and frontend.
 
    `````
     php artisan serve
@@ -68,3 +68,5 @@ Project is created with:
 * Laravel 7
 * Php: 7.4.13
 * VueJs: 2.6
+* The Movie Db API: 3
+
