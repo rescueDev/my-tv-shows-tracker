@@ -4,8 +4,9 @@ Track your favourite tv-shows progress
 
 ## Table of contents
 * [General info](#general-info)
-* [Technologies](#technologies)
 * [Setup](#setup)
+* [Technologies](#technologies)
+
 
 ##### the project is still in progress...
 
