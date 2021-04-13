@@ -42,31 +42,32 @@ cd my-tv-show-tracker
 
 <br>
 
-4)Create a new database named my-tv-show-tracker in PhpMyAdmin or other. 
+4) Create a new database named my-tv-show-tracker in PhpMyAdmin or other. 
 
 <br>
 
 5) Run migration from terminal: 
 
-
-````    php artisan migrate --refresh ````
+````
+    php artisan migrate --refresh
+````
 
 6) Start backend server and frontend.
 
-   `````
+ ````
     php artisan serve
     
     npm run watch
-    ``````
-    <br>
+ ````
+ 
 7) Open your browser and go to localhost:8000 or other port number you previously set.
 
 
 
 ## Technologies
 Project is created with:
-* Laravel 7
+* Laravel: 7.30.4
 * Php: 7.4.13
-* VueJs: 2.6
+* VueJs: 2.6.12
 * The Movie Db API: 3
 
