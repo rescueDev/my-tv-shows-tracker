@@ -32,7 +32,7 @@ In this section you can search for any tv show, add one to your progress.
 
 1) Clone this repository:
 `````
-git clone 
+git clone https://github.com/sa-borgia3/my-tv-shows-tracker.git
 `````
 2) enter folder
  `````
