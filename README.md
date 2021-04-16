@@ -39,7 +39,7 @@ git clone https://github.com/sa-borgia3/my-tv-shows-tracker.git
  `````
 cd my-tv-show-tracker
 ``````
-3) Check .env file and type your DBMS password.
+3) Rename .envcopy file to .env and add your TMDB api key to MIX_VUE_APP_TMDB_KEY (register one if you don't have it).
 
 <br>
 
