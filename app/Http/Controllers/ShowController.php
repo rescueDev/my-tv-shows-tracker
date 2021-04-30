@@ -20,16 +20,28 @@ class ShowController extends Controller
      */
     public function index()
     {
-        $userLogged = Auth::user()->id;
-        $shows = Show::where('user_id', $userLogged)->get();
-        return view('progress', compact('shows'));
+        if (Auth::user()) {
+            
+            $userLogged = Auth::user()->id;
+            $shows = Show::where('user_id', $userLogged)->get();
+            return view('progress', compact('shows'));
+        }
+        else {
+            return redirect('/login');
+        }
     }
 
     public function watched()
     {
-        $userLogged = Auth::user()->id;
-        $watched = Show::onlyTrashed()->where('user_id', $userLogged)->get();
-        return view('watched', compact('watched'));
+        if (Auth::user()) {
+            # code...
+            $userLogged = Auth::user()->id;
+            $watched = Show::onlyTrashed()->where('user_id', $userLogged)->get();
+            return view('watched', compact('watched'));
+        }
+        else {
+            return redirect('/login');
+        }
     }
 
     public function showWatched($id)
