@@ -31,8 +31,16 @@
                                 <div class="ep-poster mb-2" style="width: fit-content">
                                     <a class="cont-img-ep" href="#" data-toggle="modal"
                                         data-target="#exampleModalCenter<?php echo $count; ?>">
+                                        @if ($episode->image)
+                                            
                                         <img class="" src="{{ 'https://image.tmdb.org/t/p/w342' . $episode->image }}"
                                             alt="ep-poster">
+                                        @else
+
+                                          <img class="" width="342px" src="{{  asset('storage/nocoverepisode.jpg')}}"
+                                            alt="ep-poster">
+
+                                        @endif
                                     </a>
                                     <button class="watched-check btn btn-success mr-3" type="submit"><i
                                             class="far fa-check-square"></i></button>
