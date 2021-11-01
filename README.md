@@ -58,7 +58,8 @@ cd my-tv-show-tracker
  ````
     php artisan serve
     
-    npm run watch
+    npm run dev && npm run watch 
+    
  ````
  
 7) Open your browser and go to localhost:8000 or other port number you previously set.
