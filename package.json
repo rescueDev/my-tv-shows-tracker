@@ -26,6 +26,8 @@
     "dependencies": {
         "browser-sync": "^2.26.14",
         "browser-sync-webpack-plugin": "^2.3.0",
-        "vue-loading-overlay": "^3.4.2"
+        "vue-loading-overlay": "^3.4.2",
+        "vue-slick-carousel": "^1.0.6",
+        "vue-snap": "^0.7.1"
     }
 }

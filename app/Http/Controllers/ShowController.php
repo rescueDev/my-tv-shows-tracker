@@ -21,12 +21,11 @@ class ShowController extends Controller
     public function index()
     {
         if (Auth::user()) {
-            
+
             $userLogged = Auth::user()->id;
             $shows = Show::where('user_id', $userLogged)->get();
             return view('progress', compact('shows'));
-        }
-        else {
+        } else {
             return redirect('/login');
         }
     }
@@ -38,8 +37,7 @@ class ShowController extends Controller
             $userLogged = Auth::user()->id;
             $watched = Show::onlyTrashed()->where('user_id', $userLogged)->get();
             return view('watched', compact('watched'));
-        }
-        else {
+        } else {
             return redirect('/login');
         }
     }
@@ -49,12 +47,12 @@ class ShowController extends Controller
         $show = Show::withTrashed()->findOrFail($id);
         $seasons = $show->seasons()->withTrashed()->get();
         $seasonsWatched = [];
-        foreach ($seasons as $key=>$season) {
-//            $episodes = Episode::onlyTrashed()->where('season_id', $season->id)->get();
-//                $seasonsWatched[] = $season->episodes()->withTrashed()->get();
-                $episodes = $season->episodes()->withTrashed()->where('season_id', $season->id)->get();
+        foreach ($seasons as $key => $season) {
+            //            $episodes = Episode::onlyTrashed()->where('season_id', $season->id)->get();
+            //                $seasonsWatched[] = $season->episodes()->withTrashed()->get();
+            $episodes = $season->episodes()->withTrashed()->where('season_id', $season->id)->get();
             $season->episodes()->saveMany($episodes);
-//                $season['episodes'] = $episodes;
+            //                $season['episodes'] = $episodes;
 
         }
         collect($seasonsWatched);
@@ -86,7 +84,7 @@ class ShowController extends Controller
         $userLogged = Auth::user()->id;
 
         $request->validate([
-            'name' => ['required', 'string', Rule::unique('shows')->where('user_id', $userLogged )],
+            'name' => ['required', 'string', Rule::unique('shows')->where('user_id', $userLogged)],
             'overview' => 'required',
             'first_air_date' => 'required|date',
             'vote_average' => 'required',
@@ -113,13 +111,13 @@ class ShowController extends Controller
 
             $seas = new Season;
 
-            $seas-> name = $episode['name'];
-            $seas-> overview = $episode['overview'];
-            $seas-> air_date = $episode['air_date'];
-            $seas-> episode_count = count($episode['episodes']);
-            $seas-> season_number = $episode['season_number'];
-            $seas-> poster_path = $episode['poster_path'];
-            $seas-> show_id = $show->id;
+            $seas->name = $episode['name'];
+            $seas->overview = $episode['overview'];
+            $seas->air_date = $episode['air_date'];
+            $seas->episode_count = count($episode['episodes']);
+            $seas->season_number = $episode['season_number'];
+            $seas->poster_path = $episode['poster_path'];
+            $seas->show_id = $show->id;
 
             $seas->save();
 
@@ -136,8 +134,6 @@ class ShowController extends Controller
                 $ep->image = $epSeas['still_path'];
                 $ep->season_id = $seas->id;
                 $ep->save();
-
-
             }
         }
 

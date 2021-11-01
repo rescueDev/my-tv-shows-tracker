@@ -28,48 +28,49 @@
             </nav>
         </div>
 
-        <div v-if="!searching" class="row ">
-            <h3 class="mt-4">
-                Trending Shows
-            </h3>
-            <div
-                class="col-12 d-flex justify-content-between mt-1 overflow-auto"
+        <h3 class="mt-4">
+            Trending Shows
+        </h3>
+        <carousel
+            v-if="!searching"
+            class="story-carousel story-carousel--colors story-carousel--multiple row mx-auto"
+            :hideArrowsOnBound="true"
+        >
+            <slide
+                class="story-carousel__slide col-sm-12 col-md-4 col-lg-2 results"
+                :key="show.id"
+                v-for="show in trending"
             >
-                <div
-                    class="results mr-2"
-                    :key="show.id"
-                    v-for="show in trending"
-                >
-                    <img
-                        class="rounded-sm poster"
-                        :src="posterPath + show.poster_path"
-                        alt=""
-                    />
-                    <i class="far fa-plus-square" @click="addShow(show)"></i>
-                </div>
-            </div>
-        </div>
-        <div v-if="!searching" class="row">
-            <h3 class="mt-4">
-                Discover Shows
-            </h3>
-            <div
-                class="col-12 d-flex justify-content-between mt-1 overflow-auto"
+                <img
+                    class="rounded-sm poster"
+                    :src="posterPath + show.poster_path"
+                    alt=""
+                />
+                <i class="far fa-plus-square" @click="addShow(show)"></i>
+            </slide>
+        </carousel>
+
+        <h3 class="mt-4">
+            New Shows
+        </h3>
+        <carousel
+            v-if="!searching"
+            class="vs-carousel story-carousel story-carousel--multiple story-carousel--images row mx-auto"
+            :hideArrowsOnBound="true"
+        >
+            <slide
+                class="story-carousel__slide col-sm-12 col-md-4 col-lg-2"
+                :key="show.id"
+                v-for="show in discover"
             >
-                <div
-                    class="results mr-2"
-                    :key="show.id"
-                    v-for="show in discover"
-                >
-                    <img
-                        class="rounded-sm poster"
-                        :src="posterPath + show.poster_path"
-                        alt=""
-                    />
-                    <i class="far fa-plus-square" @click="addShow(show)"></i>
-                </div>
-            </div>
-        </div>
+                <img
+                    class="rounded-sm poster"
+                    :src="posterPath + show.poster_path"
+                    alt=""
+                />
+                <i class="far fa-plus-square" @click="addShow(show)"></i>
+            </slide>
+        </carousel>
 
         <!-- Search Results-->
         <div v-else class="row mx-auto">
@@ -103,8 +104,8 @@
 <script>
 // Import component
 import Loading from "vue-loading-overlay";
-// Import stylesheet
-import "vue-loading-overlay/dist/vue-loading.css";
+import { Carousel, Slide } from "vue-snap";
+import "vue-snap/dist/vue-snap.css";
 
 export default {
     name: "Find",
@@ -112,7 +113,9 @@ export default {
         auth: Number
     },
     components: {
-        Loading
+        Loading,
+        Carousel,
+        Slide
     },
     data() {
         return {

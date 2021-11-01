@@ -11,11 +11,6 @@
     font-family: "Nunito";
 }
 
-body {
-    // background-color: rgb(233, 229, 229);
-    // background-image: url("asset'{{public/background/postershow.jpg");
-}
-
 .results {
     position: relative;
 }
@@ -23,7 +18,7 @@ body {
 .fa-plus-square {
     position: absolute;
     top: 1%;
-    right: 1%;
+    right: 22%;
     color: rgb(206, 156, 21);
     font-size: 25px;
     background-color: rgba($color: #2927278d, $alpha: 0.2);
@@ -35,9 +30,7 @@ body {
     padding: 8px;
     background: rgba(0, 0, 0, 0.5);
 }
-//.episodes-box {
-//    width: 20%;
-//}
+
 
 li {
     list-style: none;
@@ -141,3 +134,6 @@ li {
     bottom: 1%;
     left: 0;
 }
+
+
+
